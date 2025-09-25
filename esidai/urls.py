@@ -16,29 +16,37 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import permissions
+from django.shortcuts import redirect
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework import permissions
 
+# Swagger schema setup
 schema_view = get_schema_view(
     openapi.Info(
-        title="Esidai API",
-        default_version="v1",
-        description="API documentation for Esidai E-Commerce backend",
-        terms_of_service="https://www.google.com/policies/terms/",
+        title="🐝 Esidai API",
+        default_version='v1',
+        description="Backend API for **Esidai E-commerce**, selling organic food.",
+        terms_of_service="https://esidai.example.com/terms/",
         contact=openapi.Contact(email="support@esidai.com"),
-        license=openapi.License(name="BSD License"),
+        license=openapi.License(name="MIT License"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=[permissions.AllowAny],
 )
 
+
+# Redirect root path `/` to Swagger docs
+def redirect_to_docs(request):
+    return redirect('/api/docs/')
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/accounts/", include("accounts.urls")),
-    path("api/products/", include("products.urls")),
-    path("api/orders/", include("orders.urls")),
-    path("api/payments/", include("payments.urls")),
-    path("api/docs/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
-    path("api/redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path('', redirect_to_docs),  # 👈 root goes to docs
+    path('admin/', admin.site.urls),
+    path('api/accounts/', include('accounts.urls')),
+    path('api/products/', include('products.urls')),
+    path('api/orders/', include('orders.urls')),
+    path('api/payments/', include('payments.urls')),
+    path('api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

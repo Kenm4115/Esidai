@@ -1,1 +1,1 @@
-web: gunicorn Esidai.wsgi:application
+web: gunicorn esidai.wsgi:application

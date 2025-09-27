@@ -16,7 +16,26 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / "templates"],  # ✅ important!
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -62,20 +81,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'esidai.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
 
 WSGI_APPLICATION = 'esidai.wsgi.application'
 
@@ -95,8 +100,8 @@ SECRET_KEY = config("SECRET_KEY", default="unsafe-secret-key")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = [
-    "esidai-26ge.onrender.com", 
-    "127.0.0.1", 
+    "esidai-26ge.onrender.com",
+    "127.0.0.1",
     "localhost"
 ]
 
